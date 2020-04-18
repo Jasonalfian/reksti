@@ -23,4 +23,13 @@ class AttendanceRecordSerializer(serializers.ModelSerializer):
 
 class PostAttendanceRecordSerializer(serializers.Serializer):
     student_id = serializers.CharField(max_length=8)
-    timestamp = serializers.IntegerField()
+    recorded_at = serializers.IntegerField()
+
+# new and updated untuk bulk
+class PostAttendanceNewSerializer(serializers.Serializer):
+    student_id = serializers.CharField(max_length=8)
+    recorded_at = serializers.IntegerField()
+
+class PostAttendanceNewSerializer(serializers.Serializer):
+    password = serializers.CharField()
+    records = PostAttendanceNewSerializer(many=True)
