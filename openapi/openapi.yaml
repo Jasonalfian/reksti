@@ -1,0 +1,235 @@
+openapi: 3.0.2
+info:
+  title: smartAttendance
+  version: 1.0.0
+servers:
+- url: https://reksti.didithilmy.com
+paths:
+  /api/smartcampus/students/{student_id}/:
+    get:
+      operationId: RetrieveStudent
+      parameters:
+      - name: student_id
+        in: path
+        description: A unique value identifying this student.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+  /api/smartcampus/attendance/{room_no}/{from}/{to}:
+    get:
+      operationId: RetrieveAttendanceRecord
+      parameters:
+      - name: room_no
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: from
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: to
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+  /api/smartcampus/attendance/{room_no}/{password}/:
+    post:
+      operationId: CreatePostAttendanceRecord
+      parameters:
+      - name: room_no
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: password
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/body_1'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/body_2'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/body_2'
+  /api/smartcampus/attendance/{room_no}/:
+    post:
+      operationId: CreatePostAttendanceNew
+      parameters:
+      - name: room_no
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body_3'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/body_4'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/body_5'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_2'
+components:
+  schemas:
+    inline_response_200:
+      required:
+      - name
+      - student_id
+      properties:
+        student_id:
+          maxLength: 8
+          type: string
+        name:
+          type: string
+    inline_response_200_1:
+      required:
+      - room_no
+      properties:
+        student:
+          required:
+          - name
+          - student_id
+          type: object
+          properties:
+            student_id:
+              maxLength: 8
+              type: string
+            name:
+              type: string
+          readOnly: true
+        room_no:
+          maxLength: 10
+          type: string
+        recorded_at:
+          type: string
+          format: date-time
+    body:
+      required:
+      - recorded_at
+      - student_id
+      properties:
+        student_id:
+          maxLength: 8
+          type: string
+        recorded_at:
+          type: integer
+    body_1:
+      required:
+      - recorded_at
+      - student_id
+      properties:
+        student_id:
+          maxLength: 8
+          type: string
+        recorded_at:
+          type: integer
+    body_2:
+      required:
+      - recorded_at
+      - student_id
+      properties:
+        student_id:
+          maxLength: 8
+          type: string
+        recorded_at:
+          type: integer
+    body_3:
+      required:
+      - password
+      - records
+      properties:
+        password:
+          type: string
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/body_2'
+    body_4:
+      required:
+      - password
+      - records
+      properties:
+        password:
+          type: string
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/body_2'
+    body_5:
+      required:
+      - password
+      - records
+      properties:
+        password:
+          type: string
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/body_2'
+    inline_response_200_2:
+      required:
+      - password
+      - records
+      properties:
+        password:
+          type: string
+        records:
+          type: array
+          items:
+            required:
+            - recorded_at
+            - student_id
+            properties:
+              student_id:
+                maxLength: 8
+                type: string
+              recorded_at:
+                type: integer
