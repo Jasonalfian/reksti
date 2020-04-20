@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework import generics
 from .models import Student, RoomConfiguration, AttendanceRecord
-from .serializers import StudentSerializer, RoomConfigurationSerializer, AttendanceRecordSerializer, PostAttendanceRecordSerializer, PostAttendanceNewSerializer
+from .serializers import StudentSerializer, RoomConfigurationSerializer, AttendanceRecordSerializer, PostAttendanceRecordSerializer, PostAttendanceBulkSerializer
 from datetime import datetime
 from .service import AttendanceService
 import pytz
@@ -49,10 +49,10 @@ class PostAttendanceRecordView(generics.CreateAPIView):
 
 # new & updated untuk bulk
 class PostAttendanceNewView(generics.CreateAPIView):
-    serializer_class = PostAttendanceNewSerializer
+    serializer_class = PostAttendanceBulkSerializer
 
     def post(self, request, format=None, *args, **kwargs):
-        request_serializer = PostAttendanceNewSerializer(data=request.data)
+        request_serializer = PostAttendanceBulkSerializer(data=request.data)
         request_serializer.is_valid(raise_exception=True)
 
         room_no = self.kwargs['room_no']

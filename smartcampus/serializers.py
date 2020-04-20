@@ -25,11 +25,6 @@ class PostAttendanceRecordSerializer(serializers.Serializer):
     student_id = serializers.CharField(max_length=8)
     recorded_at = serializers.IntegerField()
 
-# new and updated untuk bulk
-class PostAttendanceNewSerializer(serializers.Serializer):
-    student_id = serializers.CharField(max_length=8)
-    recorded_at = serializers.IntegerField()
-
-class PostAttendanceNewSerializer(serializers.Serializer):
+class PostAttendanceBulkSerializer(serializers.Serializer):
     password = serializers.CharField()
-    records = PostAttendanceNewSerializer(many=True)
+    records = PostAttendanceRecordSerializer(many=True)
