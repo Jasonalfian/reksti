@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import url
 
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -28,11 +29,12 @@ schema_view = get_schema_view(
         license=openapi.License(name='MIT License'),
     ),
     public=True,
-    permission_classes=(permissions.AllowAny,),
+    permission_classes=(permissions.AllowAny,)
 )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/smartcampus/', include('smartcampus.urls')),
     path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger'),
+    url(r'^openapi(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json')
 ]
